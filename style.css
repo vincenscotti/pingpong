@@ -1,0 +1,32 @@
+#content {
+	width: 100%;
+	padding: 1em;
+	text-align: center;
+	font-family: monospace;
+	font-size: large;
+	background-color: lightgoldenrodyellow;
+}
+
+p {
+	font-size: larger;
+	font-weight: bold;
+}
+
+#content div {
+	margin: 1em;
+}
+
+table {
+	margin: auto;
+}
+
+table thead tr th {
+	font-weight: bold;
+	padding: 1em;
+}
+
+table tbody tr td {
+	vertical-align: top;
+	padding-left: 0.4em;
+	padding-right: 0.4em;
+}

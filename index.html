@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ping Pong</title>
+		<link rel="stylesheet" type="text/css" href="static/style.css">
+	</head>
+
+	<body>
+		<div id="content">
+
+			<h1>Ping Pong</h1>
+
+			<p>{{ .Message }}</p>
+
+			<div id="ranking">
+				<table id="ranking-table">
+					<thead>
+						<tr>
+							<th>Giocatore</th>
+							<th>Punti</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{{ range .Players }}
+						<tr>
+							<td>{{ .Name }}</td>
+							<td>{{ .Score }}</td>
+						</tr>
+						{{ end }}
+					</tbody>
+				</table>
+			</div>
+
+			<div id="add-match">
+				<form method="post" action="match/add">
+					<fieldset>
+						<legend>Aggiungi partita</legend>
+
+						<select name="p1id">
+						{{ range .Players }}
+							<option value="{{ .ID }}">{{ .Name }}</option>
+	  					{{ end }}
+						</select>
+						<input type="number" name="score1" min="0" value="0">
+						-
+						<input type="number" name="score2" min="0" value="0">
+						<select name="p2id">
+						{{ range .Players }}
+							<option value="{{ .ID }}">{{ .Name }}</option>
+	  					{{ end }}
+						</select>
+						<input type="submit" value="Aggiungi">
+					</fieldset>
+				</form>
+			</div>
+
+			<div id="add-player">
+				<form method="post" action="player/add">
+					<fieldset>
+						<legend>Aggiungi giocatore</legend>
+						<input type="text" name="playername">
+						<input type="submit" value="Aggiungi">
+					</fieldset>
+				</form>
+			</div>
+
+			<div id="history">
+				<p>Storico</p>
+
+				<table><tr><td>
+				<table id="confirmed-table">
+					<thead>
+						<tr>
+							<th colspan="6">Partite calcolate</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{{ range .ConfirmedMatches }}
+						<tr>
+							<td>{{ .CreatedAt.Format "02/01/2006" }}</td>
+							<td>{{ .P1.Name }}</td>
+							<td>{{ .Score1 }}</td>
+							<td>-</td>
+							<td>{{ .Score2 }}</td>
+							<td>{{ .P2.Name }}</td>
+						</tr>
+						{{ end }}
+					</tbody>
+				</table>
+						</td><td>
+
+				<table id="queued-table">
+					<thead>
+						<tr>
+							<th colspan="6">Partite in coda</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{{ range .QueuedMatches }}
+						<tr>
+							<td>{{ .CreatedAt.Format "02/01/2006" }}</td>
+							<td>{{ .P1.Name }}</td>
+							<td>{{ .Score1 }}</td>
+							<td>-</td>
+							<td>{{ .Score2 }}</td>
+							<td>{{ .P2.Name }}</td>
+						</tr>
+						{{ end }}
+					</tbody>
+				</table>
+							</td></tr></table>
+			</div>
+		</div>
+	</body>
+</html>
+
