@@ -3,8 +3,10 @@ package main
 import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/tylerb/graceful"
 	"html/template"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -259,5 +261,17 @@ func main() {
 	http.HandleFunc("/player/add", AddPlayer)
 	http.HandleFunc("/match/add", AddMatch)
 	http.HandleFunc("/", Index)
-	log.Println(http.ListenAndServe(":http-alt", nil))
+
+	l, err := net.Listen("unix", "/var/run/pingpong.socket")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	server := graceful.Server{
+		Timeout: 1 * time.Minute,
+		Server:  &http.Server{},
+	}
+
+	log.Println(server.Serve(l))
+	l.Close()
 }
